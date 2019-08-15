@@ -1,14 +1,21 @@
 var mongoose = require('mongoose');
-// optional shortcut to the mongoose.Schema class
 var Schema = mongoose.Schema;
- 	
+
 var movieSchema = new Schema({
-    title: String,
-    releaseYear: Number,
-    mpaaRating: String,
-    cast: [String],
-    nowShowing: Boolean
+  title: {
+    type: String,
+    required: true
+  },
+  releaseYear: {
+    type: Number,
+    default: function () {
+      return new Date().getFullYear();
+    }
+  }, mpaaRating: String,
+  cast: [String],
+  nowShowing: { type: Boolean, default: false }
+}, {
+  timestamps: true
 });
 
- // Compile the schema into a model and export it
- module.exports = mongoose.model('Movie', movieSchema);
+module.exports = mongoose.model('Movie', movieSchema);
